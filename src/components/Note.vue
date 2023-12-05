@@ -1,3 +1,12 @@
+<script setup lang="ts">
+import { Note } from '../services/types/noteResponseType';
+
+const props = defineProps<{
+  note: Note;
+}>();
+
+</script>
+
 <template>
   <!-- <div class="card w-96 bg-primary text-primary-content image-full">
     <figure><img src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="Shoes" /></figure> -->
@@ -11,8 +20,8 @@
           <font-awesome-icon icon="fa-solid fa-trash-can" />
         </button>
       </div>
-      <h2 class="card-title">Card title!</h2>
-      <p>If a dog chews shoes whose shoes does he choose?</p>
+      <h2 class="card-title">{{ props.note.title }}</h2>
+      <p class="truncate md:text-clip">{{ props.note.content }}</p>
       <p class="flex justify-end italic">Last Update: December 23</p>
     </div>
   </div>

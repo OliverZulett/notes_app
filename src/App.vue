@@ -7,7 +7,9 @@ import Footer from './components/Footer.vue'
 <template >
   <NavBar class="h-[10%]"/>
   <!-- <NotesView class="h-[75%]"/> -->
-  <router-view class="h-[75%]"></router-view>
+  <Suspense>
+    <router-view class="h-[75%]"></router-view>
+  </Suspense>
   <Footer class="h-[10%]"/>
 </template>
 
