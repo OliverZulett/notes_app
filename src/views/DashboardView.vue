@@ -1,11 +1,11 @@
-<!-- <script setup lang="ts">
-import NavBar from './components/NavBar.vue'
-import Footer from './components/Footer.vue'
-</script> -->
+<script setup lang="ts">
+import Footer from '@/components/Footer.vue';
+import NavBar from '@/components/NavBar.vue';
+
+</script>
 
 <template >
-  <router-view></router-view>
-  <!-- <NavBar class="h-[10%]" />
+  <NavBar class="h-[10%]" />
   <Suspense>
     <router-view class="h-[75%]"></router-view>
   </Suspense>
@@ -14,5 +14,5 @@ import Footer from './components/Footer.vue'
     <router-link class="btn btn-secondary btn-lg btn-circle" to="/new-note">
       <font-awesome-icon icon="fa-solid fa-plus" />
     </router-link>
-  </div> -->
+  </div>
 </template>

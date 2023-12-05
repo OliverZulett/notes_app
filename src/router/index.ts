@@ -1,42 +1,54 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// import HomeView from '../views/HomeView.vue'
-// import NotesView from '../views/NotesView.vue'
 import NewNoteView from '@/views/NewNoteView.vue'
 import NoteView from '@/views/NoteView.vue'
 import NotesView from '@/views/NotesView.vue'
+import DashboardView from '@/views/DashboardView.vue'
+import LoginView from '@/views/LoginView.vue'
+import RegisterView from '@/views/RegisterView.vue'
+import ProfileView from '@/views/ProfileView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'notes',
-      component: NotesView
+      name: 'dashboard',
+      component: DashboardView,
+      redirect: '/notes',
+      children: [
+        {
+          path: '/notes',
+          name: 'notes',
+          component: NotesView
+        },
+        {
+          path: '/new-note',
+          name: 'newNote',
+          component: NewNoteView
+        },
+        {
+          path: '/note',
+          name: 'note',
+          component: NoteView
+        },
+        {
+          path: '/profile',
+          name: 'profile',
+          component: ProfileView
+        }
+      ]
     },
     {
-      path: '/new-note',
-      name: 'newNote',
-      component: NewNoteView
+      path: '/login',
+      name: 'login',
+      component: LoginView
     },
     {
-      path: '/note',
-      name: 'note',
-      component: NoteView
-    },
-    // {
-    //   path: '/home',
-    //   name: 'home',
-    //   component: HomeView
-    // },
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (About.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import('../views/AboutView.vue')
-    // }
-  ],
+      path: '/register',
+      name: 'register',
+      component: RegisterView
+    }
+  ]
 })
 
 export default router
