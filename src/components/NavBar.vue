@@ -4,7 +4,7 @@
 </script> -->
 <template>
   <div class="p-3">
-    <div class="navbar bg-primary text-primary-content rounded-box">
+    <div class="navbar bg-secondary text-primary-content rounded-box">
       <div class="navbar-start">
         <div class="flex-1">
           <h1 class="text-2xl font-semibold px-4">Notes App</h1>
@@ -13,10 +13,10 @@
       <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
           <li class="mx-1">
-            <router-link class="btn btn-primary text-xl" active-class="btn-active" to="/">My Notes</router-link>
+            <router-link class="btn btn-secondary text-xl" active-class="btn-active" to="/">My Notes</router-link>
           </li>
           <li class="mx-1">
-            <router-link class="btn btn-primary text-xl" active-class="btn-active" to="/about">My Notes</router-link>
+            <router-link class="btn btn-secondary text-xl" active-class="btn-active" to="/about">My Notes</router-link>
           </li>
         </ul>
       </div>
@@ -24,9 +24,9 @@
         <div class="flex">
           <div class="form-control">
             <input type="text" placeholder="Search Note"
-              class="input bg-primary input-bordered border-neutral placeholder:text-primary-content w-24 md:w-auto" />
+              class="input bg-secondary input-bordered border-neutral placeholder:text-primary-content w-24 md:w-auto" />
           </div>
-          <div class="dropdown dropdown-end">
+          <div class="dropdown dropdown-end ml-5">
             <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
               <div class="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                 <img alt="Tailwind CSS Navbar component"

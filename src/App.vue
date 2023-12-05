@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import NavBar from './components/NavBar.vue'
 import Footer from './components/Footer.vue'
-// import NotesView from './views/NotesView.vue'
 </script>
 
 <template >
-  <NavBar class="h-[10%]"/>
-  <!-- <NotesView class="h-[75%]"/> -->
+  <NavBar class="h-[10%]" />
   <Suspense>
     <router-view class="h-[75%]"></router-view>
   </Suspense>
-  <Footer class="h-[10%]"/>
+  <Footer class="h-[10%]" />
+  <div class="fixed bottom-[10%] right-[20px]">
+    <router-link class="btn btn-secondary btn-lg btn-circle" to="/new-note">
+      <font-awesome-icon icon="fa-solid fa-plus" />
+    </router-link>
+  </div>
 </template>
-
-<style scoped></style>
