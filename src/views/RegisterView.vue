@@ -1,34 +1,102 @@
+<script setup lang="ts">
+import { Form, Field, ErrorMessage } from 'vee-validate';
+import type { UserCredentialRegistration } from '../types/UserCredentialsRegistration.type';
+import { ref } from "vue";
+
+let errorMessage = ref('');
+
+const handleSubmit = (formValues: UserCredentialRegistration) => {
+
+  if (formValues.password !== formValues.confirmPassword) {
+    errorMessage.value = 'Password and confirmation must be equal';
+    return errorMessage;
+  }
+  
+  console.log(formValues);
+  errorMessage.value = '';
+};
+
+function validateEmail(emailValue: string) {
+  if (!emailValue) {
+    return 'Email is required';
+  }
+  const emailRegexValidation = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+  if (!emailRegexValidation.test(emailValue)) {
+    return 'Email must be valid';
+  }
+  return true;
+}
+
+function validateUsername(usernameValue: string) {
+  if (!usernameValue) {
+    return 'Username is required'
+  }
+  return true;
+}
+
+function validatePassword(passwordValue: string) {
+  if (!passwordValue) {
+    return 'Password is required'
+  }
+  if (passwordValue.length < 8) {
+    return 'Password should have at least 8 characters'
+  }
+  return true;
+}
+
+</script>
+
 <template>
   <div class="flex w-full h-screen justify-center items-center">
     <div>
       <div class="flex justify-center mb-10">
         <h1 class="text-6xl font-bold">
-          Notes App
+          Register
         </h1>
       </div>
-      <form class="flex flex-col justify-center items-center">
+
+      <div v-if="errorMessage.length > 0" role="alert" class="alert alert-error my-8">
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>{{ errorMessage }}</span>
+      </div>
+
+      <Form class="flex flex-col justify-center items-center" @submit="handleSubmit">
         <div class="mb-5 w-full">
           <label class="mb-2 ml-2">Email:</label>
-          <input type="email" placeholder="user@example.com" class="input input-bordered input-primary w-full" />
+          <Field name="email" type="email" placeholder="user@example.com"
+            class="input input-bordered input-primary w-full" :rules="validateEmail" />
+          <ErrorMessage class="text-error " name="email" />
         </div>
+
         <div class="mb-5 w-full">
-          <label class="mb-2 ml-2">UserName:</label>
-          <input type="password" placeholder="**************" class="input input-bordered input-primary w-full" />
+          <label class="mb-2 ml-2">Username:</label>
+          <Field name="username" type="text" placeholder="username" class="input input-bordered input-primary w-full"
+            :rules="validateUsername" />
+          <ErrorMessage class="text-error" name="username" />
         </div>
+
         <div class="mb-5 w-full">
           <label class="mb-2 ml-2">Password:</label>
-          <input type="password" placeholder="**************" class="input input-bordered input-primary w-full" />
+          <Field name="password" type="password" placeholder="********" class="input input-bordered input-primary w-full"
+            :rules="validatePassword" />
+          <ErrorMessage class="text-error" name="password" />
         </div>
-        <div class="mb-10 w-full">
+
+        <div class="mb-5 w-full">
           <label class="mb-2 ml-2">Confirm Password:</label>
-          <input type="password" placeholder="**************" class="input input-bordered input-primary w-full" />
+          <Field name="confirmPassword" type="password" placeholder="********"
+            class="input input-bordered input-primary w-full" :rules="validatePassword"/>
+          <ErrorMessage class="text-error" name="password" />
         </div>
-        <div class="flex">
-          <router-link to="/">
-            <button class="btn btn-outline btn-secondary">Register</button>
-          </router-link>
+
+        <div class="flex mt-3">
+          <button type="submit" class="btn btn-outline btn-secondary">Register</button>
         </div>
-      </form>
+      </Form>
     </div>
   </div>
 </template>
+../types/UserCredentialsRegistrationType
