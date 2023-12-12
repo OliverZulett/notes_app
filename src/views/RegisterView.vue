@@ -1,19 +1,28 @@
 <script setup lang="ts">
 import { Form, Field, ErrorMessage } from 'vee-validate';
-import type { UserCredentialRegistration } from '../types/UserCredentialsRegistration.type';
 import { ref } from "vue";
+import type { RegisterData } from '../services/types/registerDataType';
+import { register } from '@/services';
 
-let errorMessage = ref('');
+let errorMessages = ref([]);
 
-const handleSubmit = (formValues: UserCredentialRegistration) => {
+const handleSubmit = async (formValues: RegisterData) => {
 
-  if (formValues.password !== formValues.confirmPassword) {
+  if (formValues.password !== formValues.password_confirmation) {
     errorMessage.value = 'Password and confirmation must be equal';
     return errorMessage;
+  } else {
+    const registerResponse = await register(formValues);
+    if (registerResponse?.token) {
+      console.log(registerResponse);
+      console.log(VueJwtDecode.decode(registerResponse));
+      
+    } else if (registerResponse?.errors) {
+      errorMessages.value = registerResponse.errors;
+      return errorMessages;
+    }
   }
-  
-  console.log(formValues);
-  errorMessage.value = '';
+  errorMessages.value = []
 };
 
 function validateEmail(emailValue: string) {
@@ -55,12 +64,14 @@ function validatePassword(passwordValue: string) {
         </h1>
       </div>
 
-      <div v-if="errorMessage.length > 0" role="alert" class="alert alert-error my-8">
-        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        <span>{{ errorMessage }}</span>
+      <div v-for="errorMessage in errorMessages">
+        <div role="alert" class="alert alert-error my-8">
+          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>{{ errorMessage }}</span>
+        </div>
       </div>
 
       <Form class="flex flex-col justify-center items-center" @submit="handleSubmit">
@@ -87,8 +98,8 @@ function validatePassword(passwordValue: string) {
 
         <div class="mb-5 w-full">
           <label class="mb-2 ml-2">Confirm Password:</label>
-          <Field name="confirmPassword" type="password" placeholder="********"
-            class="input input-bordered input-primary w-full" :rules="validatePassword"/>
+          <Field name="password_confirmation" type="password" placeholder="********"
+            class="input input-bordered input-primary w-full" :rules="validatePassword" />
           <ErrorMessage class="text-error" name="password" />
         </div>
 
@@ -99,4 +110,3 @@ function validatePassword(passwordValue: string) {
     </div>
   </div>
 </template>
-../types/UserCredentialsRegistrationType

@@ -1,10 +1,10 @@
 import type { Note } from './types'
 import { http } from './http'
 
-const RESOURCE = 'notes'
+const NOTE_RESOURCE = 'notes'
 
 export async function getNotes(): Promise<Array<Note>> {
-  const response = await http.get(`${RESOURCE}`)
+  const response = await http.get(`${NOTE_RESOURCE}`)
   return response.data
 }
 
