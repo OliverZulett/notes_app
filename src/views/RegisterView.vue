@@ -1,22 +1,35 @@
 <script setup lang="ts">
 import { Form, Field, ErrorMessage } from 'vee-validate';
-import { ref } from "vue";
+import { ref } from 'vue';
 import type { RegisterData } from '../services/types/registerDataType';
 import { register } from '@/services';
+import VueJwtDecode from 'vue-jwt-decode'
+import { useUserStore, type User } from '../stores/userStore';
+import { storeToRefs } from 'pinia';
+import router from '../router/index';
+import { decodeJWT } from '../helpers/JWTdecodeHelper';
 
 let errorMessages = ref([]);
 
 const handleSubmit = async (formValues: RegisterData) => {
-
+  // const {userId, username, email} = storeToRefs(store)
   if (formValues.password !== formValues.password_confirmation) {
-    errorMessage.value = 'Password and confirmation must be equal';
-    return errorMessage;
+    errorMessages.value = ['Password and confirmation must be equal'];
+    return errorMessages;
   } else {
     const registerResponse = await register(formValues);
     if (registerResponse?.token) {
-      console.log(registerResponse);
-      console.log(VueJwtDecode.decode(registerResponse));
-      
+      const store = useUserStore()
+      // console.log(registerResponse);
+      // const user: User = VueJwtDecode.decode(registerResponse?.token)
+      const user: User = decodeJWT(registerResponse?.token)
+      // console.log(user);
+      store.loadUser(user);
+      // const { userId, username, email, getLoggedUSer } = storeToRefs(store)
+      // console.log(userId.value, username.value, email.value);
+      // console.log(getLoggedUSer.value);
+      router.push(`/notes`);
+
     } else if (registerResponse?.errors) {
       errorMessages.value = registerResponse.errors;
       return errorMessages;

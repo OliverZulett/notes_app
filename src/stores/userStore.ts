@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+// import { computed, ref } from 'vue'
 
 export type User = {
   username: string | undefined
@@ -7,16 +7,21 @@ export type User = {
   userId: string | undefined
 }
 
-export const authStore = defineStore('user', () => {
-  const user = ref<User>({
-    userId: undefined,
-    username: undefined,
-    email: undefined
-  })
-  
-  const loadUser = computed((userData: User) => user.value = userData);
-
-  // const getLogedUser = () => user;
-
-  return {user, loadUser}
+export const useUserStore = defineStore('user', {
+  state: () =>
+    <User>{
+      userId: undefined,
+      username: undefined,
+      email: undefined
+    },
+  getters: {
+    getLoggedUSer: (state) => state
+  },
+  actions: {
+    loadUser(user: User) {
+      this.userId = user.userId
+      this.username = user.username
+      this.email = user.email
+    }
+  }
 })

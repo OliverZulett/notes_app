@@ -1,8 +1,20 @@
 <script setup lang="ts">
 import Note from '../components/Note.vue'
-import { getNotes } from '@/services';
+import { getNotesByUserId } from '../services/notesService';
+import { useUserStore } from '@/stores';
+import { storeToRefs } from 'pinia';
+import { Note } from '../services/types/noteResponseType';
 
-const notes = await getNotes();
+// const notes = await getNotes();
+let notes: Array<Note> = [];
+const store = useUserStore()
+const { userId } = storeToRefs(store)
+
+if (userId) {
+  notes = await getNotesByUserId(userId);
+} else {
+  notes = []
+}
 
 </script>
 
