@@ -27,7 +27,7 @@ const router = createRouter({
           component: NewNoteView
         },
         {
-          path: '/note',
+          path: '/note/:noteId',
           name: 'note',
           component: NoteView
         },

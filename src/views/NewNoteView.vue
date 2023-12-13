@@ -14,10 +14,8 @@ const handleSubmit = async (formValues: any) => {
     user_id: userId.value
   }
   if (jwt?.value) {
-    const newNote = await createNote(note, jwt.value);
-    console.log(newNote);
-    
-    // router.push(`/notes`)
+    await createNote(note, jwt.value);
+    router.push(`/notes`)
   }
 }
 
@@ -40,6 +38,7 @@ function validateTitle(titleValue: string) {
           <label for="title">Title</label>
           <Field name="title" type="text" placeholder="Note Title" :rules="validateTitle"
             class="input input-bordered input-primary w-full" />
+          <ErrorMessage class="text-error" name="title" />
         </div>
         <div class="mb-5 w-full">
           <label for="content">Content</label>

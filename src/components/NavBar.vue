@@ -1,5 +1,13 @@
 <script setup lang="ts">
 import router from '../router/index';
+import { useUserStore } from '../stores/userStore';
+import { storeToRefs } from 'pinia';
+import { ref } from 'vue';
+
+const user = ref('')
+const store = useUserStore()
+const { username } = storeToRefs(store)
+user.value = username.value
 
 const handleLogout = (event) => {
   localStorage.clear();
@@ -19,6 +27,7 @@ const handleLogout = (event) => {
       </div>
       <div class="navbar-center hidden lg:flex"></div>
       <div class="navbar-end">
+        <label >Hi {{user}}!</label>
         <div class="flex">
           <div class="dropdown dropdown-end ml-3">
             <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">

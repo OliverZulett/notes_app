@@ -8,7 +8,7 @@ export async function getNotes(): Promise<Array<Note>> {
   return response.data
 }
 
-export const getNotesByUserId = (userId: string, jwtToken: string) =>
+export const getNotesByUserId = (userId: string, jwtToken: string): Promise<Array<Note>> =>
   http
     .get(`${NOTE_RESOURCE}/user/${userId}`, {
       headers: {
@@ -16,6 +16,16 @@ export const getNotesByUserId = (userId: string, jwtToken: string) =>
       }
     })
     .then((resp) => resp.data.data)
+
+
+export const getNotesById = (noteId: string, jwtToken: string): Promise<Array<Note>> =>
+    http
+      .get(`${NOTE_RESOURCE}/${noteId}`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`
+        }
+      })
+      .then((resp) => resp.data.data)
 
 export const createNote = (note: Note, jwtToken: string) =>
   http
@@ -25,3 +35,21 @@ export const createNote = (note: Note, jwtToken: string) =>
       }
     })
     .then((resp) => resp.data)
+
+export const updateNote = (noteId:string, note: Note, jwtToken: string) =>
+  http
+    .put(`${NOTE_RESOURCE}/${noteId}`, JSON.stringify(note), {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`
+      }
+    })
+    .then((resp) => resp.data)
+
+export const deleteNoteById = (noteId: string, jwtToken: string): Promise<void> =>
+    http
+      .delete(`${NOTE_RESOURCE}/${noteId}`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`
+        }
+      })
+      .then((resp) => resp.data.data)

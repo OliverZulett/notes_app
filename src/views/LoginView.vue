@@ -56,18 +56,9 @@ function validatePassword(passwordValue: string) {
 
       <div v-for="(errorMessage, i) in errorMessages" :key="i">
         <div role="alert" class="alert alert-error my-8">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="stroke-current shrink-0 h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
+          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           <span>{{ errorMessage }}</span>
         </div>
@@ -76,25 +67,15 @@ function validatePassword(passwordValue: string) {
       <Form @submit="handleSubmit" class="flex flex-col justify-center items-center">
         <div class="mb-5 w-full">
           <label class="mb-2 ml-2">Email:</label>
-          <Field
-            name="email"
-            type="email"
-            placeholder="user@example.com"
-            class="input input-bordered input-primary w-full"
-            :rules="validateEmail"
-          />
+          <Field name="email" type="email" placeholder="user@example.com"
+            class="input input-bordered input-primary w-full" :rules="validateEmail" />
           <ErrorMessage class="text-error" name="email" />
         </div>
 
         <div class="mb-5 w-full">
           <label class="mb-2 ml-2">Password:</label>
-          <Field
-            name="password"
-            type="password"
-            placeholder="********"
-            class="input input-bordered input-primary w-full"
-            :rules="validatePassword"
-          />
+          <Field name="password" type="password" placeholder="********" class="input input-bordered input-primary w-full"
+            :rules="validatePassword" />
           <ErrorMessage class="text-error" name="password" />
         </div>
 
