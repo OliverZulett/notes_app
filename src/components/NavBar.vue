@@ -14,8 +14,7 @@
           <div class="dropdown dropdown-end ml-3">
             <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
               <div class="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                <img alt="Tailwind CSS Navbar component"
-                  src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                <font-awesome-icon class="text-2xl mt-2" icon="fa-solid fa-user" />
               </div>
             </div>
             <ul class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-secondary rounded-box w-40">
