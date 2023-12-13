@@ -16,6 +16,7 @@ const handleSubmit = async (formValues: UserCredentials) => {
     const user: User = decodeJWT(loginResponse?.token)
     user.jwt = loginResponse?.token
     store.loadUser(user)
+    localStorage.setItem('user', JSON.stringify(user));
     router.push(`/notes`)
   } else if (loginResponse?.errors) {
     errorMessages.value = loginResponse.errors

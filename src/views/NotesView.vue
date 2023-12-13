@@ -2,16 +2,18 @@
 import { getNotesByUserId } from '../services/notesService'
 import { useUserStore } from '@/stores'
 import { storeToRefs } from 'pinia'
-import { type Note } from '../services/types/noteResponseType'
+import { ref } from 'vue';
+import Note from '@/views/NoteView.vue';
 
-let notes: Array<Note> = []
+let notes = ref([])
 const store = useUserStore()
 const { userId, jwt } = storeToRefs(store)
 
 if (userId?.value && jwt?.value) {
-  notes = await getNotesByUserId(userId.value, jwt.value)
+  const xyz = await getNotesByUserId(userId.value, jwt.value)
+  notes.value = xyz;
 } else {
-  notes = []
+  notes.value = []
 }
 </script>
 

@@ -1,3 +1,12 @@
+<script setup lang="ts">
+import router from '../router/index';
+
+const handleLogout = (event) => {
+  localStorage.clear();
+  router.push('/login')
+}
+
+</script>
 <template>
   <div class="p-3">
     <div class="navbar bg-secondary text-primary-content rounded-box">
@@ -22,7 +31,7 @@
                 <router-link class="hover:bg-neutral hover:text-neutral-content" to="/profile">Profile</router-link>
               </li>
               <li>
-                <router-link class="hover:bg-neutral hover:text-neutral-content" to="/login">Logout</router-link>
+                <button @click="handleLogout" class="hover:bg-neutral hover:text-neutral-content">Logout</button>
               </li>
             </ul>
           </div>

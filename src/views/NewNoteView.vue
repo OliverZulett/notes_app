@@ -1,8 +1,31 @@
 <script setup lang="ts">
-import { Field } from 'vee-validate';
+import { Form, Field, ErrorMessage } from 'vee-validate'
+import { createNote } from '../services/notesService';
+import { useUserStore } from '@/stores';
+import { storeToRefs } from 'pinia';
+import router from '../router/index';
+
+const store = useUserStore()
+const { userId, jwt } = storeToRefs(store)
 
 const handleSubmit = async (formValues: any) => {
-  console.log(formValue);
+  const note = {
+    ...formValues,
+    user_id: userId.value
+  }
+  if (jwt?.value) {
+    const newNote = await createNote(note, jwt.value);
+    console.log(newNote);
+    
+    // router.push(`/notes`)
+  }
+}
+
+function validateTitle(titleValue: string) {
+  if (!titleValue) {
+    return 'Title is required'
+  }
+  return true
 }
 
 </script>
@@ -20,8 +43,8 @@ const handleSubmit = async (formValues: any) => {
         </div>
         <div class="mb-5 w-full">
           <label for="content">Content</label>
-          <Field name="content" type="text" placeholder="Note Content" :rules="validateTitle"
-            class="input input-bordered input-primary w-full" />
+          <Field name="content" type="text" as="textarea" placeholder="Note Content"
+            class="input input-bordered input-primary w-full h-36" />
         </div>
         <div class="mb-5 w-full">
           <button type="submit" class="btn btn-outline btn-secondary">Create</button>

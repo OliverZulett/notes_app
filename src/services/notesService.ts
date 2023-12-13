@@ -15,4 +15,13 @@ export const getNotesByUserId = (userId: string, jwtToken: string) =>
         Authorization: `Bearer ${jwtToken}`
       }
     })
+    .then((resp) => resp.data.data)
+
+export const createNote = (note: Note, jwtToken: string) =>
+  http
+    .post(`${NOTE_RESOURCE}`, JSON.stringify(note), {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`
+      }
+    })
     .then((resp) => resp.data)
