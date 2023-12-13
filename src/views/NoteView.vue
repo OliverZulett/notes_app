@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Form, Field, ErrorMessage } from 'vee-validate'
-import { createNote, getNotesById, updateNote, deleteNoteById } from '../services/notesService';
+import { getNotesById, updateNote, deleteNoteById } from '../services/notesService';
 import { useUserStore } from '@/stores';
 import { storeToRefs } from 'pinia';
 import router from '../router/index';

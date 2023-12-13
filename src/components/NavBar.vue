@@ -5,9 +5,12 @@ import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 
 const user = ref('')
+const profileId = ref('')
+
 const store = useUserStore()
-const { username } = storeToRefs(store)
+const { username, userId } = storeToRefs(store)
 user.value = username.value
+profileId.value = userId.value
 
 const handleLogout = (event) => {
   localStorage.clear();
@@ -37,7 +40,7 @@ const handleLogout = (event) => {
             </div>
             <ul class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-secondary rounded-box w-40">
               <li>
-                <router-link class="hover:bg-neutral hover:text-neutral-content" to="/profile">Profile</router-link>
+                <router-link class="hover:bg-neutral hover:text-neutral-content" :to="{ name: 'profile', params: { profileId: userId }}">Profile</router-link>
               </li>
               <li>
                 <button @click="handleLogout" class="hover:bg-neutral hover:text-neutral-content">Logout</button>

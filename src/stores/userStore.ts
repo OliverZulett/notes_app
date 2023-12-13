@@ -4,7 +4,7 @@ export type User = {
   username: string | undefined
   email: string | undefined
   userId: string | undefined
-  jwt: string | undefined
+  jwt?: string | undefined
 }
 
 export const useUserStore = defineStore('user', {

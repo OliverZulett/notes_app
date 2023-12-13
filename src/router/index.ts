@@ -32,7 +32,7 @@ const router = createRouter({
           component: NoteView
         },
         {
-          path: '/profile',
+          path: '/profile/:profileId',
           name: 'profile',
           component: ProfileView
         }

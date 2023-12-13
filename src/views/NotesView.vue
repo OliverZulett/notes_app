@@ -30,4 +30,10 @@ if (userId?.value && jwt?.value) {
       </div>
     </div>
   </div>
+  
+  <div class="fixed bottom-[5%] right-[20px]">
+    <router-link class="btn btn-secondary btn-lg btn-circle" to="/new-note">
+      <font-awesome-icon icon="fa-solid fa-plus" />
+    </router-link>
+  </div>
 </template>

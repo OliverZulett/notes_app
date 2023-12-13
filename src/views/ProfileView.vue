@@ -1,7 +1,72 @@
+<script setup lang="ts">
+import { Form, Field, ErrorMessage } from 'vee-validate'
+import { getNotesById, updateNote, deleteNoteById } from '../services/notesService';
+import { useUserStore } from '@/stores';
+import { storeToRefs } from 'pinia';
+import router from '../router/index';
+import { ref } from 'vue';
+
+const store = useUserStore()
+const { jwt } = storeToRefs(store)
+
+const { profileId } = router.currentRoute.value.params;
+
+let note = ref();
+
+if (profileId) {
+  note.value = await getNotesById(profileId, jwt.value)
+  console.log(note.value);
+} else {
+  router.push('/notes')
+}
+
+const handleSubmit = async (formValues: any) => {
+  const note = {
+    ...formValues,
+    user_id: userId.value
+  }
+  if (jwt?.value) {
+    await updateNote(profileId, note, jwt.value);
+    router.push(`/notes`)
+  }
+}
+
+const handleDelete = async () => {
+  await deleteNoteById(profileId, jwt.value)
+  router.push(`/notes`)
+}
+
+function validateTitle(titleValue: string) {
+  if (!titleValue) {
+    return 'Title is required'
+  }
+  return true
+}
+
+</script>
 <template>
   <div class="container mx-auto my-5">
     <div class="flex justify-left mb-10 px-3">
       <h1 class="text-6xl font-bold">Profile</h1>
+    </div>
+    <div>
+      <Form @submit="handleSubmit" class="flex flex-col justify-center items-center">
+        <div class="mb-5 w-full">
+          <label for="username">Username</label>
+          <Field name="username" type="text" placeholder="Username" :rules="validateTitle" :value="note.title"
+            class="input input-bordered input-primary w-full" />
+          <ErrorMessage class="text-error" name="username" />
+        </div>
+        <div class="mb-5 w-full">
+          <label for="content">Content</label>
+          <Field name="content" type="text" as="textarea" placeholder="Note Content" :value="note.content"
+            class="input input-bordered input-primary w-full h-36" />
+        </div>
+        <div class="mb-5 w-full">
+          <button type="submit" class="btn btn-error mr-5" @click="handleDelete">Delete</button>
+          <button type="submit" class="btn btn-outline btn-success">Update</button>
+        </div>
+      </Form>
     </div>
   </div>
 </template>
