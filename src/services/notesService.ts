@@ -8,15 +8,11 @@ export async function getNotes(): Promise<Array<Note>> {
   return response.data
 }
 
-export const getNotesByUserId = (userId: string) =>
-  http.get(`${NOTE_RESOURCE}/${userId}`).then((resp) => resp.data)
-
-// export async function getItemById (itemId: string): Promise<Note> {
-//   const response = await http.get(`/${itemId}`)
-//   return response.data
-// }
-
-// export async function createItem (item: Item): Promise<Item> {
-//   const response = await http.post('/', JSON.stringify(item))
-//   return response.data
-// }
+export const getNotesByUserId = (userId: string, jwtToken: string) =>
+  http
+    .get(`${NOTE_RESOURCE}/user/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`
+      }
+    })
+    .then((resp) => resp.data)

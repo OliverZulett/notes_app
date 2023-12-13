@@ -1,3 +1,3 @@
 export type AuthErrorResponse = {
-  errors: Array<string>;
+  errors: Array<string>
 }

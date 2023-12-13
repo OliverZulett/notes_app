@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'axios'
 
 const NOTE_API_URL = 'http://localhost'
 

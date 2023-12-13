@@ -1,3 +1,3 @@
 export type ApiResponse = {
-  data: any;
+  data: any
 }

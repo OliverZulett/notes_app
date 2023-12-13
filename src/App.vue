@@ -3,7 +3,7 @@ import NavBar from './components/NavBar.vue'
 import Footer from './components/Footer.vue'
 </script> -->
 
-<template >
+<template>
   <router-view></router-view>
   <!-- <NavBar class="h-[10%]" />
   <Suspense>

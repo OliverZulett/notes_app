@@ -1,59 +1,49 @@
 <script setup lang="ts">
-import { Form, Field, ErrorMessage } from 'vee-validate';
-import { ref } from 'vue';
-import type { RegisterData } from '../services/types/registerDataType';
-import { register } from '@/services';
-import VueJwtDecode from 'vue-jwt-decode'
-import { useUserStore, type User } from '../stores/userStore';
-import { storeToRefs } from 'pinia';
-import router from '../router/index';
-import { decodeJWT } from '../helpers/JWTdecodeHelper';
+import { Form, Field, ErrorMessage } from 'vee-validate'
+import { ref } from 'vue'
+import type { RegisterData } from '../services/types/registerDataType'
+import { register } from '@/services'
+import { useUserStore, type User } from '../stores/userStore'
+import router from '../router/index'
+import { decodeJWT } from '../helpers/JWTdecodeHelper'
 
-let errorMessages = ref([]);
+let errorMessages = ref([])
 
 const handleSubmit = async (formValues: RegisterData) => {
-  // const {userId, username, email} = storeToRefs(store)
   if (formValues.password !== formValues.password_confirmation) {
-    errorMessages.value = ['Password and confirmation must be equal'];
-    return errorMessages;
+    errorMessages.value = ['Password and confirmation must be equal']
+    return errorMessages
   } else {
-    const registerResponse = await register(formValues);
+    const registerResponse = await register(formValues)
     if (registerResponse?.token) {
       const store = useUserStore()
-      // console.log(registerResponse);
-      // const user: User = VueJwtDecode.decode(registerResponse?.token)
       const user: User = decodeJWT(registerResponse?.token)
-      // console.log(user);
-      store.loadUser(user);
-      // const { userId, username, email, getLoggedUSer } = storeToRefs(store)
-      // console.log(userId.value, username.value, email.value);
-      // console.log(getLoggedUSer.value);
-      router.push(`/notes`);
-
+      store.loadUser(user)
+      router.push(`/notes`)
     } else if (registerResponse?.errors) {
-      errorMessages.value = registerResponse.errors;
-      return errorMessages;
+      errorMessages.value = registerResponse.errors
+      return errorMessages
     }
   }
   errorMessages.value = []
-};
+}
 
 function validateEmail(emailValue: string) {
   if (!emailValue) {
-    return 'Email is required';
+    return 'Email is required'
   }
-  const emailRegexValidation = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+  const emailRegexValidation = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
   if (!emailRegexValidation.test(emailValue)) {
-    return 'Email must be valid';
+    return 'Email must be valid'
   }
-  return true;
+  return true
 }
 
 function validateUsername(usernameValue: string) {
   if (!usernameValue) {
     return 'Username is required'
   }
-  return true;
+  return true
 }
 
 function validatePassword(passwordValue: string) {
@@ -63,25 +53,31 @@ function validatePassword(passwordValue: string) {
   if (passwordValue.length < 8) {
     return 'Password should have at least 8 characters'
   }
-  return true;
+  return true
 }
-
 </script>
 
 <template>
   <div class="flex w-full h-screen justify-center items-center">
     <div>
       <div class="flex justify-center mb-10">
-        <h1 class="text-6xl font-bold">
-          Register
-        </h1>
+        <h1 class="text-6xl font-bold">Register</h1>
       </div>
 
-      <div v-for="errorMessage in errorMessages">
+      <div v-for="(errorMessage, i) in errorMessages" :key="i">
         <div role="alert" class="alert alert-error my-8">
-          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="stroke-current shrink-0 h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
           </svg>
           <span>{{ errorMessage }}</span>
         </div>
@@ -90,29 +86,49 @@ function validatePassword(passwordValue: string) {
       <Form class="flex flex-col justify-center items-center" @submit="handleSubmit">
         <div class="mb-5 w-full">
           <label class="mb-2 ml-2">Email:</label>
-          <Field name="email" type="email" placeholder="user@example.com"
-            class="input input-bordered input-primary w-full" :rules="validateEmail" />
-          <ErrorMessage class="text-error " name="email" />
+          <Field
+            name="email"
+            type="email"
+            placeholder="user@example.com"
+            class="input input-bordered input-primary w-full"
+            :rules="validateEmail"
+          />
+          <ErrorMessage class="text-error" name="email" />
         </div>
 
         <div class="mb-5 w-full">
           <label class="mb-2 ml-2">Username:</label>
-          <Field name="username" type="text" placeholder="username" class="input input-bordered input-primary w-full"
-            :rules="validateUsername" />
+          <Field
+            name="username"
+            type="text"
+            placeholder="username"
+            class="input input-bordered input-primary w-full"
+            :rules="validateUsername"
+          />
           <ErrorMessage class="text-error" name="username" />
         </div>
 
         <div class="mb-5 w-full">
           <label class="mb-2 ml-2">Password:</label>
-          <Field name="password" type="password" placeholder="********" class="input input-bordered input-primary w-full"
-            :rules="validatePassword" />
+          <Field
+            name="password"
+            type="password"
+            placeholder="********"
+            class="input input-bordered input-primary w-full"
+            :rules="validatePassword"
+          />
           <ErrorMessage class="text-error" name="password" />
         </div>
 
         <div class="mb-5 w-full">
           <label class="mb-2 ml-2">Confirm Password:</label>
-          <Field name="password_confirmation" type="password" placeholder="********"
-            class="input input-bordered input-primary w-full" :rules="validatePassword" />
+          <Field
+            name="password_confirmation"
+            type="password"
+            placeholder="********"
+            class="input input-bordered input-primary w-full"
+            :rules="validatePassword"
+          />
           <ErrorMessage class="text-error" name="password" />
         </div>
 

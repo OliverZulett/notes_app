@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import Footer from '@/components/Footer.vue';
-import NavBar from '@/components/NavBar.vue';
-
+import Footer from '@/components/Footer.vue'
+import NavBar from '@/components/NavBar.vue'
 </script>
 
-<template >
+<template>
   <NavBar class="h-[10%]" />
   <Suspense>
     <router-view class="h-[75%]"></router-view>
