@@ -1,5 +1,6 @@
 import type { Note } from './types'
 import { http } from './http'
+import router from '@/router'
 
 const NOTE_RESOURCE = 'notes'
 
@@ -16,6 +17,15 @@ export const getNotesByUserId = (userId: string, jwtToken: string): Promise<Arra
       }
     })
     .then((resp) => resp.data.data)
+    .catch(err => {
+      const {status} = err.response;
+      console.log(status);
+      
+      if (status && status === 401) {
+        localStorage.clear();
+        router.push('/login');
+      }
+    });
 
 
 export const getNotesById = (noteId: string, jwtToken: string): Promise<Array<Note>> =>
