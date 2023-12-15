@@ -10,13 +10,17 @@ export function login(
     .post(`${AUTH_RESOURCE}/login`, JSON.stringify(userCredentials))
     .then((resp) => resp.data.data)
     .catch((error) => {
-      const errorsResponse = error.response.data.errors
       const errors: string[] = []
+      const errorsResponse = error.response.data?.errors
+      const {message} = error.response.data
       if (errorsResponse?.email) {
         errorsResponse.email.forEach((error: string) => errors.push(error))
       }
       if (errorsResponse?.username) {
         errorsResponse.username.forEach((error: string) => errors.push(error))
+      }
+      if (message) {
+        errors.push(message)
       }
       return { errors }
     })

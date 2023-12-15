@@ -19,8 +19,7 @@ export const getNotesByUserId = (userId: string, jwtToken: string): Promise<Arra
     .then((resp) => resp.data.data)
     .catch(err => {
       const {status} = err.response;
-      console.log(status);
-      
+
       if (status && status === 401) {
         localStorage.clear();
         router.push('/login');

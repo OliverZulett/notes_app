@@ -3,31 +3,51 @@ import { ErrorMessage, Field, Form } from 'vee-validate';
 import { ref } from 'vue';
 import { useUserStore, User } from '../stores/userStore';
 import { storeToRefs } from 'pinia';
-import { updateProfileById } from '../services/profileService';
+import { updateProfileById, deleteProfileById } from '../services/profileService';
+import router from '@/router';
 
 const store = useUserStore()
 const { userId, jwt, username, email } = storeToRefs(store)
 
-console.log(userId.value);
-console.log(jwt?.value);
-console.log(username.value);
-console.log(email.value);
-
-let errorMessages = ref([]);
+let errorMessages = ref<Array<string>>([]);
 
 const handleUpdate = async (formValues: User) => {
-  if (formValues.password !== formValues.password_confirmation) {
+  if (formValues?.password !== formValues?.password_confirmation) {
     errorMessages.value = ['Password and confirmation must be equal']
     return errorMessages
   } else {
-    await updateProfileById(userId.value, formValues, jwt.value)
-      .catch(console.log)
+    errorMessages.value = []
+    return await updateProfileById(userId.value, formValues, jwt.value)
+      .then((resp) => {        
+        const { email: newEmail, username: newUsername } = resp;
+
+        const newUser = {
+          userId: userId.value,
+          username: newUsername,
+          email: newEmail,
+          jwt: jwt.value,
+        }
+
+        store.loadUser(newUser)
+        localStorage.setItem('user', JSON.stringify(newUser));
+        
+        router.push('/notes')
+      })
+      .catch(err => {
+        if (err?.response?.data?.errors) {
+          for (const [, value] of Object.entries(err.response.data?.errors)) {
+            errorMessages.value.push(value[0])
+          }
+        }
+        return errorMessages
+      })
   }
-  errorMessages.value = []
 }
 
 const handleDelete = async () => {
-  console.log('delete')
+  deleteProfileById(userId.value, jwt.value)
+  localStorage.clear();
+  router.push('/login')
 }
 
 const validateEmail = (emailValue: string) => {
@@ -49,13 +69,15 @@ const validateUsername = (usernameValue: string) => {
 }
 
 const validatePassword = (passwordValue: string) => {
-  if (!passwordValue) {
-    return 'Password is required'
-  }
-  if (passwordValue.length < 8) {
+  if (passwordValue && passwordValue?.length < 8) {
     return 'Password should have at least 8 characters'
   }
   return true
+}
+
+const showModal = (event) => {
+  event.preventDefault()
+  my_modal_1.showModal()
 }
 
 </script>
@@ -108,7 +130,7 @@ const validatePassword = (passwordValue: string) => {
         </div>
 
         <div class="my-5 w-full">
-          <button class="btn btn-error mr-5" onclick="my_modal_1.showModal()">Remove profile</button>
+          <button class="btn btn-error mr-5" @click="showModal">Remove profile</button>
           <button type="submit" class="btn btn-outline btn-success">Update profile</button>
         </div>
 

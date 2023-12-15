@@ -14,7 +14,7 @@ export const getProfileById = (profileId: string, jwtToken: string): Promise<Use
 
 export const updateProfileById = (profileId: string, profile: User, jwtToken: string): Promise<void> =>
   http
-    .put(`${PROFILE_RESOURCE}/${profileId}`, JSON.stringify(profile), {
+    .patch(`${PROFILE_RESOURCE}/${profileId}`, JSON.stringify(profile), {
       headers: {
         Authorization: `Bearer ${jwtToken}`
       }

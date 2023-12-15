@@ -10,7 +10,6 @@ const store = useUserStore()
 const { userId, jwt } = storeToRefs(store)
 
 if (userId?.value && jwt?.value) {
-  console.log(await getNotesByUserId(userId.value, jwt.value))
   notes.value = await getNotesByUserId(userId.value, jwt.value);
 } else {
   notes.value = []
@@ -24,13 +23,13 @@ if (userId?.value && jwt?.value) {
     </div>
     <div class="flex flex-wrap px-3">
       <div class="p-1 w-full sm:w-6/12 md:w-4/12 lg:w-3/12" v-for="(note, i) in notes" :key="i">
-        <router-link :to="{ name: 'note', params: { noteId: note.id }}">
+        <router-link :to="{ name: 'note', params: { noteId: note.id } }">
           <Note :note="note" />
         </router-link>
       </div>
     </div>
   </div>
-  
+
   <div class="fixed bottom-[5%] right-[20px]">
     <router-link class="btn btn-secondary btn-lg btn-circle" to="/new-note">
       <font-awesome-icon icon="fa-solid fa-plus" />

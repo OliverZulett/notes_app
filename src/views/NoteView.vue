@@ -15,7 +15,6 @@ let note = ref();
 
 if (noteId) {
   note.value = await getNotesById(noteId, jwt.value)
-  console.log(note.value);
 } else {
   router.push('/notes')
 }
