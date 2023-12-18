@@ -17,6 +17,6 @@ if (user) {
 <template>
   <NavBar class="h-[10%]" />
   <Suspense>
-    <router-view class="h-[75%]"></router-view>
+    <router-view></router-view>
   </Suspense>
 </template>

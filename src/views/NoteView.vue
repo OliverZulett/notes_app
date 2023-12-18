@@ -22,6 +22,7 @@ if (noteId) {
 const handleSubmit = async (formValues: any) => {
   const note = {
     ...formValues,
+    content: formValues?.content ? formValues.content : '', 
     user_id: userId.value
   }
   if (jwt?.value) {
@@ -45,7 +46,12 @@ function validateTitle(titleValue: string) {
 </script>
 <template>
   <div class="container mx-auto my-5">
-    <div class="flex justify-left mb-10 px-3">
+    <div class="flex items-center justify-left mb-10 px-3">
+      <router-link to="/notes">
+        <button class="btn btn-circle btn-outline text-3xl mr-4">
+          <font-awesome-icon icon="fa-solid fa-arrow-left" />
+        </button>
+      </router-link>
       <h1 class="text-6xl font-bold">{{ note.title }}</h1>
     </div>
     <div>

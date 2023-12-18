@@ -18,9 +18,11 @@ if (userId?.value && jwt?.value) {
 
 <template>
   <div class="container mx-auto my-5">
-    <div class="flex justify-left mb-10 px-3">
+    <div class="flex flex-col justify-left mb-10 px-3">
       <h1 class="text-6xl font-bold">My notes</h1>
+      <p v-if="notes.length === 0" class="mt-8 text-2xl font-light">You dont have notes yet, why you dont create a new one? press the + button</p>
     </div>
+
     <div class="flex flex-wrap px-3">
       <div class="p-1 w-full sm:w-6/12 md:w-4/12 lg:w-3/12" v-for="(note, i) in notes" :key="i">
         <router-link :to="{ name: 'note', params: { noteId: note.id } }">

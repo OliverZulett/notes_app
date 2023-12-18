@@ -136,6 +136,10 @@ function validatePassword(passwordValue: string) {
 
         <div class="flex mt-3">
           <button type="submit" class="btn btn-outline btn-secondary">Register</button>
+          
+          <router-link to="/login">
+            <button class="btn btn-active btn-link">Login</button>
+          </router-link>
         </div>
       </Form>
     </div>

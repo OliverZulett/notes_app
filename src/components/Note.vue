@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { type Note } from '../services/types/noteResponseType'
+import moment from 'moment'
 
 const props = defineProps<{
   note: Note
 }>()
+
+const {updated_at} = props.note;
+
 </script>
 
 <template>
@@ -16,7 +20,7 @@ const props = defineProps<{
         </h2>
       </div>
       <p class="whitespace-pre-wrap line-clamp-3">{{ props.note.content }}</p>
-      <p class="flex justify-end italic mt-3">Last Update: December 23</p>
+      <p class="flex justify-end italic mt-3">Updated At: {{ moment(updated_at).format('MMMM D') }}</p>
     </div>
   </div>
 </template>
